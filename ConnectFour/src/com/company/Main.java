@@ -72,23 +72,94 @@ public class Main {
         return 0;
     }
     public static boolean winCheck(int[] place, char[][] board){
-        // aaaaaaaahhhhhhhhhhhhhhh
+        // aaaaaaaahhhhhhhhhhhhhhh checks rrrrrooooowwwwssss
         char player = board[place[0]][place[1]];
-        int rowCount = 0;
+        int count = 0;
         for (int x = 0; x < board.length; x++){
             for (char[] chars : board) {
                 if (chars[x] == player){
-                    rowCount ++;
-                    if (rowCount >= 4){
+                    count ++;
+                    if (count >= 4){
                         return true;
                     }
+                }else {
+                    count = 0;
                 }
             }
-            rowCount = 0;
+            count = 0;
         }
-
-
-
+        count = 0;
+        // checks columns
+        for (int d = 0; d < board.length;d++){
+            if (board[place[0]][d] == player){
+                count ++;
+                if (count >= 4){
+                    return true;
+                }
+            } else {
+                count = 0;
+            }
+        }
+        count = 0;
+        //bot left to top right
+        for (int ix = 0; ix + place[0] < board.length && place[1] - ix > 0; ix++){
+            if (board[place[0] + ix][place[1] - ix] == player) {
+                count++;
+                if (count >= 4) {
+                    return true;
+                }else {
+                    count = 0;
+                }
+            }
+        }
+        count = 0;
+        //This works bot right down to top left (DON'T TOUCH THIS)
+        for (int ix = 0; ix + place[0] < board.length && place[1] - ix > 0; ix++){
+            if (board[place[0] + ix][place[1] - ix] == player) {
+                count++;
+                if (count >= 4) {
+                    return true;
+                }
+            }else {
+                count = 0;
+            }
+        }
+        count = 0;
+        //This also works top right down to
+        for (int ix = 0; ix + place[0] < board.length && place[1] + ix < board.length; ix++){
+            if (board[place[0] + ix][place[1] + ix] == player) {
+                count++;
+                if (count >= 4) {
+                    return true;
+                }
+            }else {
+                count = 0;
+            }
+        }
+        count = 0;
+        //Top right down
+        for (int ix = 0; place[0] - ix >= 0 && place[1] + ix < board.length; ix++){
+            if (board[place[0] - ix][place[1] + ix] == player) {
+                count++;
+                if (count >= 4) {
+                    return true;
+                }
+            }else {
+                count = 0;
+            }
+        }
+        count = 0;
+        //
+        for (int ix = 0; place[0] - ix >= 0 && place[1] - ix > 0; ix++){
+            if (board[place[0] - ix][place[1] - ix] == player) {
+                count++;
+                if (count >= 4) {
+                    return true;
+                }
+            }else {
+                count = 0;
+            }
+        }
 
         return false;
     }
@@ -107,6 +178,7 @@ public class Main {
         int[] place = new int[2];
         for (int c = board.length - 1; c >= 0; c--){
             if (board[spot][c] == '-'){
+                // spot [0] = x spot[1] = y
                 place[0] = spot;
                 place[1] = c;
                 return place;
